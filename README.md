@@ -1,5 +1,5 @@
 # cpu-scheduler
-An implementation of various CPU scheduling algorithms in C++. The algorithms included are First Come First Serve (FCFS), Round Robin (RR),Shortest Job First(SJB)
+An implementation of various CPU scheduling algorithms in C++. The algorithms included are First Come First Serve (FCFS), Round Robin (RR),Shortest Job First(SJF)
 ## Algorithms
 
 ### First Come First Serve (FCFS)
