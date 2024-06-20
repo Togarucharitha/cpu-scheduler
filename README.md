@@ -15,3 +15,4 @@ An implementation of various CPU scheduling algorithms in C++. The algorithms in
 -The choice of preemptive and non preemptive arises when a new process arrives at the ready queue and a previous process is not finished and is being executed. If the next CPU burst of new process is shorter than current executing process, then in preemptive version , it will stop that process and will start executing the newly arrived process.
 
 -While, in non preemptive version of SJF, even if the arriving process is shorter than currently executing process, current process is not stopped . After the current process finishes , then the new process gets in the queue. This is the key difference between preemptive and non-preemptive version of SJF.
+
