@@ -83,7 +83,7 @@ void FCFS(Process P[], int numProcesses) {
 
     float avgWaitTime = totalWaitTime / numProcesses;
     float avgTurnaroundTime = totalTurnaroundTime / numProcesses;
-   json result;
+    json result;
     for (int i = 0; i < numProcesses; i++) {
         result["processes"].push_back({
             {"id", P[i].getId()},
@@ -97,7 +97,6 @@ void FCFS(Process P[], int numProcesses) {
     result["avgWaitTime"] = avgWaitTime;
     result["avgTurnaroundTime"] = avgTurnaroundTime;
     cout << result.dump(4) << endl; // Output the result as JSON
-    
 }
 
 void SJF_Preemptive(Process P[], int numProcesses) {
@@ -149,7 +148,6 @@ void SJF_Preemptive(Process P[], int numProcesses) {
     result["avgWaitTime"] = avgWaitTime;
     result["avgTurnaroundTime"] = avgTurnaroundTime;
     cout << result.dump(4) << endl; // Output the result as JSON
-
 }
 
 void SJF_NonPreemptive(Process P[], int numProcesses) {
@@ -250,7 +248,7 @@ void RoundRobin(Process P[], int numProcesses, int quantum) {
 
     float avgWaitTime = totalWaitTime / numProcesses;
     float avgTurnaroundTime = totalTurnaroundTime / numProcesses;
-   json result;
+    json result;
     for (int i = 0; i < numProcesses; i++) {
         result["processes"].push_back({
             {"id", P[i].getId()},
@@ -267,37 +265,39 @@ void RoundRobin(Process P[], int numProcesses, int quantum) {
 }
 
 int main(int argc, char * argv[]) {
-    if (argc < 3) {
-        cerr << "Usage: " << argv[0] << " <schedulerType> <quantum> <processes>" << endl;
+    if (argc < 4) {
+        cerr << "Usage: " << argv[0] << " <schedulerType> <processes> [<quantum>]" << endl;
         return 1;
     }
 
-    string schedulerType = (string)argv[1];
-      int quantum = (int)argv[2];
+    string schedulerType = argv[1];
+    int quantum = stoi(argv[2]);
     json processesJson = json::parse(argv[3]);
     int numProcesses = processesJson.size();
     Process P[numProcesses];
+    cout << processesJson;
 
-    for (int i = 0; i <= numProcesses; i++) {
-        P[i].setId(processesJson[i]["id"]);
-        P[i].setarrivalTime(processesJson[i]["arrivalTime"]);
-        P[i].setburstTime(processesJson[i]["burstTime"]);
-        P[i].setRemainingTime(processesJson[i]["burstTime"]); // Initialize remaining time
-    }
+    for (int i = 0; i < numProcesses; i++) {
+         P[i].setId(processesJson[i]["processId"].get<int>());
+            P[i].setarrivalTime(processesJson[i]["arrivalTime"].get<int>());
+            P[i].setburstTime(processesJson[i]["burstTime"].get<int>());
+            P[i].setRemainingTime(processesJson[i]["burstTime"].get<int>());
+    } // Initialize remaining time
+    
 
     if (schedulerType == "FCFS") {
-         FCFS(P, numProcesses);
-
-     } else if (schedulerType == "SJF_Preemptive") {
+        FCFS(P, numProcesses);
+    } else if (schedulerType == "SJF_Preemptive") {
         SJF_Preemptive(P, numProcesses);
-   } else if (schedulerType == "SJF_NonPreemptive") {
+    } else if (schedulerType == "SJF_NonPreemptive") {
         SJF_NonPreemptive(P, numProcesses);
-     } else if (schedulerType == "RoundRobin") {
+    } else if (schedulerType == "RoundRobin") {
         RoundRobin(P, numProcesses, quantum);
-     } else {
-         cerr << "Invalid scheduler type!" << endl;
-         
-     }
+    } else {
+        cerr << "Invalid scheduler type!" << endl;
+        return 1;
+    }
     return 0;
- 
 }
+
+
